@@ -8,7 +8,7 @@ To set the CI/CD pipe line
 
 We need to install ajenkins server and install plugin for github.
 
-Then we need to copy the files from  git branch to the mounted valume which is in the jenkins and the production infra.
+Then we need to copy the files from  git branch to the mounted valume which is in the jenkins and the production infra by using execute shell section using script there.
 
 we need to create the listed files in infra
 
