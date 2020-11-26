@@ -31,23 +31,23 @@ spec:
         imagePullPolicy: Always
         name: domain-prod
         env:
-          - name:  WORDPRESS_DB_HOST
+          - name:  dbhost
             value: IP
-          - name: WORDPRESS_DB_USER
+          - name: dbuser
             valueFrom:
               secretKeyRef:
                  name: domian
-                 key: WORDPRESS_DB_USER
-          - name: WORDPRESS_DB_PASSWORD
+                 key: DBuser
+          - name: DBpasswd
             valueFrom:
               secretKeyRef:
                  name: domain
-                 key: WORDPRESS_DB_PASSWORD
-          - name: WORDPRESS_DB_NAME
+                 key: DBuser
+          - name: DBpasswd
             valueFrom:
               secretKeyRef:
                 name: domain
-                key: WORDPRESS_DB_NAME
+                key: DBname
         ports:
         - containerPort: 80
           name: domain-port
