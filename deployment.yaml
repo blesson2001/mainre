@@ -1,0 +1,74 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: domain-prod
+  namespace: production
+  labels:
+      app: domain-prod
+      tier: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: domain-prod
+      tier: prod
+  template:
+    metadata:
+      labels:
+        app: domain-prod
+        tier: prod
+    spec:
+      affinity: {}
+      containers:
+      - image: URL
+        resources:
+          requests:
+             memory: 200Mi
+             cpu: 40m
+          limits:
+             memory: 350Mi
+             cpu: 120m
+        imagePullPolicy: Always
+        name: domain-prod
+        env:
+          - name:  WORDPRESS_DB_HOST
+            value: IP
+          - name: WORDPRESS_DB_USER
+            valueFrom:
+              secretKeyRef:
+                 name: domian
+                 key: WORDPRESS_DB_USER
+          - name: WORDPRESS_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                 name: domain
+                 key: WORDPRESS_DB_PASSWORD
+          - name: WORDPRESS_DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: domain
+                key: WORDPRESS_DB_NAME
+        ports:
+        - containerPort: 80
+          name: domain-port
+          protocol: TCP
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+        volumeMounts:
+          - name: volume-name
+            mountPath: /var/www/html/
+      volumes:
+        - name: volume-name
+          hostPath:
+            path: path
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30

@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: domain-prod
+  namespace: production
+  annotations:
+   kubernetes.io/tls-acme: "true"
+   certmanager.k8s.io/cluster-issuer: "letsencrypt"
+   ingress.kubernetes.io/force-ssl-redirect: "true"
+   kubernetes.io/ingress.class: "nginx-prod"
+spec: 
+  tls:
+  - secretName: nameforsecret
+    hosts: 
+    - namehost
+
+  rules:
+  - host: namehost
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: servicename
+          servicePort: 80
+
